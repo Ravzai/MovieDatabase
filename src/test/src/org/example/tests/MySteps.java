@@ -38,9 +38,7 @@ public class MySteps {
 
     @Then("The first search result should be Titanic")
     public void first_search_result_Titanic() {
-        // WebElement firstSearch = webDriver.findElement(By.xpath("//h2[text()='Titanic']"));
-        //WebElement h2Element = webDriver.findElement(By.cssSelector("h2:contains('Titanic')"));
-        WebElement h2Element = webDriver.findElement(By.xpath("//h2[contains(text(),'Titanic')]"));
+        WebElement firstSearch = webDriver.findElement(By.xpath("//h2[contains(text(),'Titanic')]"));
     }
 
     @After
