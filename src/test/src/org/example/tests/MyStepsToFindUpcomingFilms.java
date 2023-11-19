@@ -9,6 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class MyStepsToFindUpcomingFilms {
 
@@ -24,34 +27,27 @@ public class MyStepsToFindUpcomingFilms {
         webDriver.get("https://www.themoviedb.org/");
     }
 
-    // Solve this!! It doesn't work, should this wait for a solution? We will see...... ;)
-    @Given("I click on movies")
-    public void click_on_movies() {
-        WebElement filmsLink = webDriver.findElement((By.cssSelector("a.no_click.k-link.k-menu-link.k-state-active.k-state-border-down[href='/movie']")));
-        filmsLink.click();
-        WebDriverWait wait = new WebDriverWait(webDriver, 10); // Wacht 10 seconden maximaal
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a.no_click.k-link.k-menu-link.k-state-active.k-state-border-down[href='/movie']")));
-        element.click(); // Voer de actie uit nadat het element aanklikbaar is geworden
-
+    @Given("I navigate to movies")
+    public void navigate_to_movies() {
+        WebElement moviesLink = webDriver.findElement(By.linkText("Films"));
+        moviesLink.click();
     }
 
-    @When("I navigate to upcoming movies")
-    public void i_go_navigate_to_upcoming_movies() {
-        WebElement upcomingMovies = webDriver.findElement((By.cssSelector("a.k-link.k-menu-link[href='/movie/upcoming']")));
-        upcomingMovies.click();
+    @When("I click on upcoming movies")
+    public void i_click_on_upcoming_movies() {
+        WebElement upcomingMovies = webDriver.findElement(By.cssSelector("a.k-link.k-menu-link[href='/movie/upcoming']"));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(upcomingMovies)).click();
     }
 
     @Then("I see all the upcoming movies")
     public void see_all_upcoming_movies() {
-        WebElement movieTitle = webDriver.findElement(By.cssSelector(".title.result"));
-        String titleText = movieTitle.getText();
+        WebElement upcomingMovies = webDriver.findElement(By.xpath("//*[@id=\"main\"]/section"));
+        String sectionText = upcomingMovies.getText();
     }
 
     @After
     public void CleanUp(){
         webDriver.close();
-    }
-
-    private class WebDriverWait {
     }
 }
